@@ -28,6 +28,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.sass"
             ],
             "scripts": []
@@ -123,6 +124,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "Angular9-ToHtml-signatureForm"
+    }
+  },
+  "defaultProject": "Angular9-ToHtml-signatureForm",
+  "cli": {
+    "analytics": "23b0bd19-2e65-46d7-bbf3-42aecd781a84"
+  }
 }
