@@ -59,7 +59,7 @@ export class SignatureFormComponent implements OnInit, AfterViewInit {
   getBase64Image(arg0: HTMLElement) {
   }
   generatePdf() {
-    this.printElement = document.getElementById('content');
+   // this.printElement = document.getElementById('content');
     html2canvas(document.body).then( (canvas) => {
       // document.body.appendChild(canvas);
       // this.hideForm = true;
