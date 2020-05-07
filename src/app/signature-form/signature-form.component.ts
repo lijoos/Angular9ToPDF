@@ -21,6 +21,7 @@ export class SignatureFormComponent implements OnInit, AfterViewInit {
   public printElement: any;
   public pdfData: any;
   public imageHeight: any;
+  hideForm = false;
   constructor() { }
 
   ngOnInit() {
@@ -39,32 +40,47 @@ export class SignatureFormComponent implements OnInit, AfterViewInit {
   }
 
   generatePdf() {
-    const filename = 'upsellingForm.pdf';
-    const thisData = this;
     this.printElement = document.getElementById('content');
+    html2canvas(document.body).then( (canvas) => {
+     // document.body.appendChild(canvas);
+      // this.hideForm = true;
+      const link = document.createElement('a');
+      link.download = 'download.png';
+      link.href = canvas.toDataURL();
+      link.click();
+  //     canvas.toBlob((blob) => {
+  //       // Do something with the blob object,
+  //       // e.g. creating a multipart form for file uploads:
+  //     //   let formData = new FormData()
+  //     //   formData.append('file', blob, fileName)
+  //     //   /* ... */
+  //     // }, 'image/jpeg');
+   });
+    // const filename = 'upsellingForm.pdf';
+    // const thisData = this;
+    // this.printElement = document.getElementById('content');
 
-    const htmlWidth = this.printElement.offsetWidth;
-    const htmlHeight = this.printElement.offsetHeight;
-    const topLeftMargin = 15;
-    const pdfWidth = htmlWidth + (topLeftMargin * 2);
-    const pdfheight = (pdfWidth * 1.5) + (topLeftMargin * 2);
-    const canvasImageWidth = htmlWidth;
-    const canvasImageHeight = htmlHeight;
-    const totalPDFPages = Math.ceil(htmlHeight / pdfheight) - 1;
-
-    html2canvas(this.printElement, { scrollY: -window.scrollY }).then(canvas => {
-      canvas.getContext('2d');
-      const imgData = canvas.toDataURL('image/jpeg', 1.0);
-      this.pdfData = new jsPDF('p', 'pt', [pdfWidth, pdfheight]);
-      this.pdfData.addImage(imgData, 'JPG', topLeftMargin, topLeftMargin, canvasImageWidth, canvasImageHeight);
-      for (let i = 1; i <= totalPDFPages; i++) {
-        this.pdfData.addPage(pdfWidth, pdfheight);
-        this.pdfData.addImage(imgData, 'JPG', topLeftMargin, -(pdfheight * i) +
-        (topLeftMargin * 4), canvasImageWidth, canvasImageHeight);
-      }
-      this.pdfData.save(filename);
-      this.uploadFile(this.pdfData.output('blob'), filename);
-    });
+    // const htmlWidth = this.printElement.offsetWidth;
+    // const htmlHeight = this.printElement.offsetHeight;
+    // const topLeftMargin = 15;
+    // const pdfWidth = htmlWidth + (topLeftMargin * 2);
+    // const pdfheight = (pdfWidth * 1.5) + (topLeftMargin * 2);
+    // const canvasImageWidth = htmlWidth;
+    // const canvasImageHeight = htmlHeight;
+    // const totalPDFPages = Math.ceil(htmlHeight / pdfheight) - 1;
+    // html2canvas(this.printElement, { scrollY: -window.scrollY }).then(canvas => {
+    //   canvas.getContext('2d');
+    //   const imgData = canvas.toDataURL('image/jpeg', 1.0);
+    //   this.pdfData = new jsPDF('p', 'pt', [pdfWidth, pdfheight]);
+    //   this.pdfData.addImage(imgData, 'JPG', topLeftMargin, topLeftMargin, canvasImageWidth, canvasImageHeight);
+    //   for (let i = 1; i <= totalPDFPages; i++) {
+    //     this.pdfData.addPage(pdfWidth, pdfheight);
+    //     this.pdfData.addImage(imgData, 'JPG', topLeftMargin, -(pdfheight * i) +
+    //     (topLeftMargin * 4), canvasImageWidth, canvasImageHeight);
+    //   }
+    //   this.pdfData.save(filename);
+    //   this.uploadFile(this.pdfData.output('blob'), filename);
+    // });
     // this.uploadFile(this.pdfData.output('blob'), filename);
   }
   uploadFile(pdfFile: Blob, fileName: string) {
