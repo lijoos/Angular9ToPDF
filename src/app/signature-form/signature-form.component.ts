@@ -38,11 +38,30 @@ export class SignatureFormComponent implements OnInit, AfterViewInit {
     // }
     // return true;
   }
-
+  generatePdfForm() {
+    this.hideForm = true;
+    this.printElement = document.getElementById('content');
+    html2canvas(document.body).then( (canvas) => {
+      document.body.appendChild(canvas);
+      const link = document.createElement('a');
+      link.download = 'download.png';
+      link.href = canvas.toDataURL();
+      link.click();
+   });
+  }
+  download(){
+    const doc = new jsPDF();
+    const imageData = this.getBase64Image(document.getElementById('img'));
+    doc.addImage(imageData, 'JPG', 10, (1) * 10, 180, 150);
+    doc.addPage();
+    doc.save('Test.pdf');
+  }
+  getBase64Image(arg0: HTMLElement) {
+  }
   generatePdf() {
     this.printElement = document.getElementById('content');
     html2canvas(document.body).then( (canvas) => {
-     // document.body.appendChild(canvas);
+      // document.body.appendChild(canvas);
       // this.hideForm = true;
       const link = document.createElement('a');
       link.download = 'download.png';
