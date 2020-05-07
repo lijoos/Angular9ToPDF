@@ -60,7 +60,7 @@ export class SignatureFormComponent implements OnInit, AfterViewInit {
   }
   generatePdf() {
    // this.printElement = document.getElementById('content');
-    html2canvas(document.body).then( (canvas) => {
+    html2canvas(document.body, {scrollY: -window.scrollY} ).then( (canvas) => {
       // document.body.appendChild(canvas);
       // this.hideForm = true;
       const link = document.createElement('a');
